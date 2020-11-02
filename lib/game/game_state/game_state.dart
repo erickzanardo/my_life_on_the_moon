@@ -5,8 +5,14 @@ import 'package:flame/extensions/vector2.dart';
 import 'dart:ui';
 
 import 'state_fourth_dimension.dart';
+import 'stations/stations.dart';
 
 class GameState with StateFourthDimension {
+  List<Station> stations = [
+    Station(position: Vector2(1, 0)),
+    Station(position: Vector2(0, 0)),
+    Station(position: Vector2(-1, 0)),
+  ];
 }
 
 class GameStateComponent extends Component {

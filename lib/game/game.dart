@@ -8,6 +8,7 @@ import 'dart:math';
 import 'game_state/game_state.dart';
 
 import 'components/daytime_background.dart';
+import 'components/stations_component.dart';
 
 class MoonGame extends BaseGame {
 
@@ -26,6 +27,7 @@ class MoonGame extends BaseGame {
     // this can be loaded from a saved game eventually
     add(GameStateComponent(state = GameState()));
     add(DaytimeBackground());
+    add(StationsComponent());
   }
 
   void calcBoundaries() {
