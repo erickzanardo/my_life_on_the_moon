@@ -5,7 +5,7 @@ import 'package:flame/extensions/vector2.dart';
 import 'dart:ui';
 import 'dart:math';
 
-import 'game_state.dart';
+import 'game_state/game_state.dart';
 
 import 'components/daytime_background.dart';
 
