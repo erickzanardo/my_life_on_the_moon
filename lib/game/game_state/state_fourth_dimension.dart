@@ -1,7 +1,7 @@
  const EARTH_DAY_DURATION = 120; // secs (2 minutes)
  const LUNAR_DAY_DURATION = EARTH_DAY_DURATION * 27;
 
-mixin FourthDimension {
+mixin StateFourthDimension {
 
   int pastEarthDays = 0;
   int pastLunarDays = 0;
