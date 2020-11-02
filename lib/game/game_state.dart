@@ -14,7 +14,7 @@ class GameState {
   double currentEarthDay = 0.0;
   double currentLunarDay = 0.0;
 
-  int _speed = 9;
+  int _speed = 800;
 
   void pauseSpeed() {
     _speed = 0;
@@ -32,6 +32,9 @@ class GameState {
     _speed = 9;
   }
 
+  void ultraFastSpeed() {
+    _speed = 20;
+  }
 
   void update(double dt)  {
     double _dt = dt * _speed;
@@ -52,6 +55,7 @@ class GameState {
 
   get earthDayProgress => currentEarthDay / EARTH_DAY_DURATION;
   get lunarDayProgress => currentLunarDay / LUNAR_DAY_DURATION;
+  bool get daytime => lunarDayProgress <= 0.5;
 }
 
 class GameStateComponent extends Component {
@@ -79,8 +83,13 @@ class GameStateComponent extends Component {
     );
     label.render(
         canvas,
-        "Speed factor ${state._speed}",
+        "Daytime ${state.daytime}",
         Vector2(10, 50),
+    );
+    label.render(
+        canvas,
+        "Speed factor ${state._speed}",
+        Vector2(10, 70),
     );
   }
 
@@ -89,4 +98,7 @@ class GameStateComponent extends Component {
     super.update(dt);
     state.update(dt);
   }
+
+  @override
+  int priority() => 10;
 }
