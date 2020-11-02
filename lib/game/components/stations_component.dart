@@ -11,6 +11,7 @@ class StationsComponent extends Component with HasGameRef<MoonGame> {
 
   // Temp
   static final stationPaint = Paint()..color = Color(0xFFFFFFFF);
+  static final stationOffPaint = Paint()..color = Color(0xFFA9A9A9);
   static final stationStrokePaint = Paint()..color = Color(0xFF00FF00)..style = PaintingStyle.stroke..strokeWidth = 2;
 
   @override
@@ -35,7 +36,7 @@ class StationsComponent extends Component with HasGameRef<MoonGame> {
 
       canvas.drawRect(
           rect,
-          stationPaint,
+          station.powered ? stationPaint : stationOffPaint,
       );
       canvas.drawRect(
           rect,
