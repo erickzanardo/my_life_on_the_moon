@@ -1,4 +1,5 @@
 import 'package:flutter/animation.dart';
+import 'package:flame/sprite.dart';
 import 'package:flame/components/component.dart';
 import 'package:flame/components/mixins/has_game_ref.dart';
 
@@ -8,11 +9,13 @@ import '../game.dart';
 
 class DaytimeBackground extends Component with HasGameRef<MoonGame> {
 
-  static const EARTH_SIZE = 150;
+  static const EARTH_SIZE = 128;
   static const SUN_SIZE = 50;
 
-  final earthPaint = Paint()..color = Color(0xFF0000FF);
   final sunPaint = Paint()..color = Color(0xFFFFFF00);
+
+  Sprite earthSprite;
+  Sprite sunSprite;
 
   Tween<double> tween;
   bool daytime;
@@ -21,6 +24,9 @@ class DaytimeBackground extends Component with HasGameRef<MoonGame> {
   @override
   void onMount() {
     calcTrajectory();
+
+    earthSprite = Sprite(gameRef.images.fromCache('earth.png'));
+    sunSprite = Sprite(gameRef.images.fromCache('sun.png'));
   }
 
   void calcTrajectory() {
@@ -43,7 +49,11 @@ class DaytimeBackground extends Component with HasGameRef<MoonGame> {
 
   @override
   void render(Canvas canvas) {
-    canvas.drawOval(rect, daytime ? sunPaint : earthPaint);
+    if (daytime) {
+      sunSprite.renderRect(canvas, rect);
+    } else {
+      earthSprite.renderRect(canvas, rect);
+    }
   }
 
   @override

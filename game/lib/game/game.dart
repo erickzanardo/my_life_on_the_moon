@@ -29,11 +29,6 @@ class MoonGame extends BaseGame {
           );
 
     calcBoundaries();
-
-    // this can be loaded from a saved game eventually
-    add(GameStateComponent());
-    add(DaytimeBackground());
-    add(StationsComponent());
   }
 
   void calcBoundaries() {
@@ -44,7 +39,19 @@ class MoonGame extends BaseGame {
         size.x / 2 - (gameSize.x * _scaleFactor) / 2,
         size.y / 2 - (gameSize.y * _scaleFactor) / 2,
     );
+  }
 
+  @override
+  Future<void> onLoad() async {
+    await Future.wait([
+      images.load('earth.png'),
+      images.load('sun.png'),
+    ]);
+
+    // this can be loaded from a saved game eventually
+    add(GameStateComponent());
+    add(DaytimeBackground());
+    add(StationsComponent());
   }
 
   @override
