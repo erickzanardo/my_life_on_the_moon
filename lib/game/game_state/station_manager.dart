@@ -17,10 +17,13 @@ mixin StationManager {
         .fold(0, (value, panel) => value + panel.energyProduction());
   }
 
-  BatteryRoom _batteryRoom() => stations.whereType<BatteryRoom>().toList()[0];
+  int batteryRoomCapacity() => stations
+      .whereType<BatteryRoom>()
+      .fold(0, (value, room) => value + room.capacity);
+
 
   void stationCycle(Resources resources, bool daytime) {
-    final battery = _batteryRoom();
+    final capacity = batteryRoomCapacity();
 
     if (daytime) {
       int energyProduced = _energyProduction();
@@ -34,12 +37,11 @@ mixin StationManager {
         }
       });
 
-      resources.storeEnergy(energyProduced, battery.capacity);
+      resources.storeEnergy(energyProduced, capacity);
     } else {
-      final battery = _batteryRoom();
       stations.forEach((station) {
         if (resources.energy >= station.energyRequired()) {
-          resources.storeEnergy(-station.energyRequired(), battery.capacity);
+          resources.storeEnergy(-station.energyRequired(), capacity);
           station.powered = true;
         } else {
           station.powered = false;
