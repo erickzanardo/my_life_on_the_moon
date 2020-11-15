@@ -1,16 +1,10 @@
-import 'package:flame/extensions/vector2.dart';
 
 import 'resources.dart';
 
 import 'stations/stations.dart';
 
 mixin StationManager {
-  List<Station> stations = [
-    CommandCenter(position: Vector2(1, 0), id: 1),
-    SolarPanel(position: Vector2(0, 0), id: 2),
-    BatteryRoom(position: Vector2(-1, 0), id: 3),
-    Farm(position: Vector2(0, -1), id: 4),
-  ];
+  List<Station> stations = [];
 
   int _energyProduction() {
     return stations

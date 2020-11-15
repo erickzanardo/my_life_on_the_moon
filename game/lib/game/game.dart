@@ -12,6 +12,9 @@ import 'components/game_state_component.dart';
 import 'components/daytime_background.dart';
 import 'components/stations_component.dart';
 
+import 'game_state/stations/stations.dart';
+import 'game_state/people_manager.dart';
+
 class MoonGame extends BaseGame {
 
   static final gameSize = Vector2(800, 600);
@@ -24,9 +27,28 @@ class MoonGame extends BaseGame {
   MoonGame(Size screenSize) {
     size = screenSize.toVector2();
     state = GameState()
-        ..resources = (
-            Resources()
-          );
+        ..resources = Resources();
+
+    // Mock data
+    state.stations.addAll([
+      CommandCenter(position: Vector2(1, 0), id: 1),
+      SolarPanel(position: Vector2(0, 0), id: 2),
+      BatteryRoom(position: Vector2(-1, 0), id: 3),
+      SolarPanel(position: Vector2(-2, 0), id: 2),
+      Barracks(position: Vector2(-1, -1), id: 4),
+      Farm(position: Vector2(0, -1), id: 5),
+    ]);
+
+    state.people.addAll([
+      Person()
+        ..name = 'John'
+        ..age = 30
+        ..health = 3
+        ..hunger = 3 
+        ..workingStationId = 5
+    ]);
+
+    state.resources.food = 10;
 
     calcBoundaries();
   }

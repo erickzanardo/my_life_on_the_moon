@@ -1,4 +1,5 @@
 import 'package:flame/extensions/vector2.dart';
+import '../people_manager.dart';
 
 enum StationType {
   COMMAND_CENTER,
@@ -16,6 +17,8 @@ abstract class Station {
   int id;
 
   String _toString;
+
+  List<Person> people = [];
 
   @override
   String toString() => _toString ?? (_toString = type().toString());
@@ -76,6 +79,6 @@ class Farm extends Station {
 
   Farm({ Vector2 position, int id }): super(position: position, id: id);
 
-  int energyRequired() => 0;
-  int energyProduction() => 10;
+  int energyRequired() => 4;
+  int energyProduction() => 0;
 }
