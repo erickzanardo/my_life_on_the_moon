@@ -1,6 +1,7 @@
 import 'package:flame/components/component.dart';
 import 'package:flame/components/mixins/has_game_ref.dart';
 import 'package:flame/extensions/vector2.dart';
+import 'package:flame/text_config.dart';
 
 import 'dart:ui';
 
@@ -13,6 +14,10 @@ class StationsComponent extends Component with HasGameRef<MoonGame> {
   static final stationPaint = Paint()..color = Color(0xFFFFFFFF);
   static final stationOffPaint = Paint()..color = Color(0xFFA9A9A9);
   static final stationStrokePaint = Paint()..color = Color(0xFF00FF00)..style = PaintingStyle.stroke..strokeWidth = 2;
+  static final roomNameConfig = TextConfig(
+      fontSize: 10,
+      color: Color(0xFF000000),
+  );
 
   @override
   void update(double dt) {
@@ -42,6 +47,8 @@ class StationsComponent extends Component with HasGameRef<MoonGame> {
           rect,
           stationStrokePaint,
       );
+
+      roomNameConfig.render(canvas, station.toString(), Vector2(rect.left, rect.top));
     });
 
     canvas.restore();

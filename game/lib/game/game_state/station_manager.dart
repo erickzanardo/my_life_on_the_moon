@@ -6,9 +6,10 @@ import 'stations/stations.dart';
 
 mixin StationManager {
   List<Station> stations = [
-    CommandCenter(position: Vector2(1, 0)),
-    SolarPanel(position: Vector2(0, 0)),
-    BatteryRoom(position: Vector2(-1, 0)),
+    CommandCenter(position: Vector2(1, 0), id: 1),
+    SolarPanel(position: Vector2(0, 0), id: 2),
+    BatteryRoom(position: Vector2(-1, 0), id: 3),
+    Farm(position: Vector2(0, -1), id: 4),
   ];
 
   int _energyProduction() {
