@@ -4,8 +4,9 @@ import 'stations/stations.dart';
 class Person {
   String name;
   int age;
-  int health;
-  int hunger;
+  int health = 3;
+  int hunger = 8;
+  int thirsty = 3;
 
   int workingStationId;
 }
@@ -26,12 +27,24 @@ mixin PeopleManager {
 
       if (person.hunger <= 0) {
         person.health--;
+        print('${person.name} is starving');
+      }
+
+      if (state.resources.water > 0) {
+        state.resources.consumeWater(1);
+      } else {
+        person.thirsty--;
+      }
+
+      if (person.thirsty <= 0) {
+        person.health--;
+        print('${person.name} is thirsty');
       }
 
       if (person.health <= 0) {
         toRemove.add(person);
         // better notification
-        print('${person.name} died of starvation');
+        print('${person.name} died');
       } else {
         findBarracks(state)?.people?.add(person);
       }

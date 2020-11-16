@@ -20,6 +20,7 @@ mixin StationManager {
     stations.whereType<FactoryStation>().forEach((s) {
       if (s.powered) {
         s.updateShift(resources);
+        s.consumeResources(resources);
       }
     });
   }

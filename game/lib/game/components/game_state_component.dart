@@ -47,7 +47,7 @@ class GameStateComponent extends Component with HasGameRef<MoonGame> {
         Energy: ${state.resources.energy}
         Alloys: ${state.resources.alloys}
         Concrete: ${state.resources.concrete}
-        Water: ${state.resources.water}
+        Water: ${state.resources.water.toStringAsFixed(2)}
         ''',
         Vector2(400, 10),
     );

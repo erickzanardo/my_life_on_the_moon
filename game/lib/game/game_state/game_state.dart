@@ -9,6 +9,7 @@ class GameState with StateFourthDimension, StationManager, PeopleManager {
 
   GameState() {
     earthDayTicker.add(() {
+      resources.recycleWater();
       onDayBegin(this);
       stationCycle(resources, daytime);
     });

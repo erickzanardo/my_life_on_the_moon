@@ -27,7 +27,10 @@ class MoonGame extends BaseGame {
   MoonGame(Size screenSize) {
     size = screenSize.toVector2();
     state = GameState()
-        ..resources = Resources();
+        ..resources = (
+            Resources()
+            ..water = 20
+        );
 
     // Mock data
     state.stations.addAll([
@@ -43,8 +46,6 @@ class MoonGame extends BaseGame {
       Person()
         ..name = 'John'
         ..age = 30
-        ..health = 3
-        ..hunger = 3 
         ..workingStationId = 5
     ]);
 

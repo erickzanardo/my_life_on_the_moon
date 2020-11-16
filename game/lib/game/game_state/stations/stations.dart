@@ -37,6 +37,7 @@ abstract class Station {
 mixin FactoryStation on Station {
 
   double progress = 0.0;
+  bool hasEnoughResources = false;
 
   double workRequired();
   double individualWorkContribution();
@@ -44,14 +45,18 @@ mixin FactoryStation on Station {
   void applyProduction(Resources resource);
 
   void updateShift(Resources resources) {
-    people.forEach((_) => progress += individualWorkContribution());
+    if (hasEnoughResources) {
+      people.forEach((_) => progress += individualWorkContribution());
 
-    if (progress >= workRequired()) {
-      progress -= workRequired();
+      if (progress >= workRequired()) {
+        progress -= workRequired();
 
-      applyProduction(resources);
+        applyProduction(resources);
+      }
     }
   }
+
+  void consumeResources(Resources resources);
 }
 
 class CommandCenter extends Station {
@@ -111,6 +116,16 @@ class Farm extends Station with FactoryStation {
 
   @override
   void applyProduction(Resources resources) {
-    resources.food += 10;
+    resources.food += 8;
+  }
+
+  @override
+  void consumeResources(Resources resources) {
+    if (resources.water >= 1) {
+      resources.consumeWater(1);
+      hasEnoughResources = true;
+    } else {
+      hasEnoughResources = false;
+    }
   }
 }
