@@ -10,6 +10,7 @@ enum StationType {
   FARM,
   WORKSHOP,
   LANDING_PAD,
+  WATER_MINE,
 }
 
 abstract class Station {
@@ -87,7 +88,7 @@ class BatteryRoom extends Station {
   BatteryRoom({
     Vector2 position,
     int id,
-    this.capacity = 100,
+    this.capacity = 140,
   }): super(position: position, id: id);
 }
 
@@ -127,5 +128,30 @@ class Farm extends Station with FactoryStation {
     } else {
       hasEnoughResources = false;
     }
+  }
+}
+
+class WaterMine extends Station with FactoryStation {
+  StationType type() => StationType.WATER_MINE;
+
+  WaterMine({ Vector2 position, int id }): super(position: position, id: id);
+
+  int energyRequired() => 2;
+  int energyProduction() => 0;
+
+  @override
+  double workRequired() => 1.2;
+
+  @override
+  double individualWorkContribution() => 0.6;
+
+  @override
+  void applyProduction(Resources resources) {
+    resources.water += 6;
+  }
+
+  @override
+  void consumeResources(_) {
+    hasEnoughResources = true;
   }
 }

@@ -40,13 +40,22 @@ class MoonGame extends BaseGame {
       BatteryRoom(position: Vector2(-1, 0), id: 3),
       Barracks(position: Vector2(-1, -1), id: 4),
       Farm(position: Vector2(-1, -2), id: 5),
+      WaterMine(position: Vector2(2, 0), id: 6),
     ]);
 
     state.people.addAll([
       Person()
         ..name = 'John'
         ..age = 30
-        ..workingStationId = 5
+        ..workingStationId = 5,
+      Person()
+        ..name = 'Neo'
+        ..age = 28 
+        ..workingStationId = 5,
+      Person()
+        ..name = 'Constantine'
+        ..age = 22 
+        ..workingStationId = 6
     ]);
 
     state.resources.food = 10;
