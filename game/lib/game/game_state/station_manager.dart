@@ -16,6 +16,13 @@ mixin StationManager {
       .whereType<BatteryRoom>()
       .fold(0, (value, room) => value + room.capacity);
 
+  void stationWorkCycle(Resources resources) {
+    stations.whereType<FactoryStation>().forEach((s) {
+      if (s.powered) {
+        s.updateShift(resources);
+      }
+    });
+  }
 
   void stationCycle(Resources resources, bool daytime) {
     final capacity = batteryRoomCapacity();

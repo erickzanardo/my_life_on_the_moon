@@ -1,5 +1,6 @@
 import 'package:flame/extensions/vector2.dart';
 import '../people_manager.dart';
+import '../resources.dart';
 
 enum StationType {
   COMMAND_CENTER,
@@ -16,9 +17,9 @@ abstract class Station {
   bool powered = true;
   int id;
 
-  String _toString;
-
   List<Person> people = [];
+
+  String _toString;
 
   @override
   String toString() => _toString ?? (_toString = type().toString());
@@ -31,6 +32,26 @@ abstract class Station {
   StationType type();
   int energyRequired();
   int energyProduction();
+}
+
+mixin FactoryStation on Station {
+
+  double progress = 0.0;
+
+  double workRequired();
+  double individualWorkContribution();
+
+  void applyProduction(Resources resource);
+
+  void updateShift(Resources resources) {
+    people.forEach((_) => progress += individualWorkContribution());
+
+    if (progress >= workRequired()) {
+      progress -= workRequired();
+
+      applyProduction(resources);
+    }
+  }
 }
 
 class CommandCenter extends Station {
@@ -74,11 +95,22 @@ class SolarPanel extends Station {
   int energyProduction() => 10;
 }
 
-class Farm extends Station {
+class Farm extends Station with FactoryStation {
   StationType type() => StationType.FARM;
 
   Farm({ Vector2 position, int id }): super(position: position, id: id);
 
-  int energyRequired() => 4;
+  int energyRequired() => 1;
   int energyProduction() => 0;
+
+  @override
+  double workRequired() => 1.0;
+
+  @override
+  double individualWorkContribution() => 0.2;
+
+  @override
+  void applyProduction(Resources resources) {
+    resources.food += 10;
+  }
 }

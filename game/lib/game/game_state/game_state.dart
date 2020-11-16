@@ -14,6 +14,7 @@ class GameState with StateFourthDimension, StationManager, PeopleManager {
     });
 
     workDayTicker.add(() {
+      stationWorkCycle(resources);
       onWorkDayEnd(this);
     });
   }

@@ -8,7 +8,7 @@ import 'dart:ui';
 import '../game.dart';
 
 class StationsComponent extends Component with HasGameRef<MoonGame> {
-  static final stationSize = Vector2(200, 75);
+  static final stationSize = Vector2(150, 50);
 
   // Temp
   static final personPaint = Paint()..color = Color(0xFFB1B1B1);

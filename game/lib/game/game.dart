@@ -31,12 +31,12 @@ class MoonGame extends BaseGame {
 
     // Mock data
     state.stations.addAll([
-      CommandCenter(position: Vector2(1, 0), id: 1),
+      CommandCenter(position: Vector2(-2, 0), id: 1),
+      SolarPanel(position: Vector2(1, 0), id: 2),
       SolarPanel(position: Vector2(0, 0), id: 2),
       BatteryRoom(position: Vector2(-1, 0), id: 3),
-      SolarPanel(position: Vector2(-2, 0), id: 2),
       Barracks(position: Vector2(-1, -1), id: 4),
-      Farm(position: Vector2(0, -1), id: 5),
+      Farm(position: Vector2(-1, -2), id: 5),
     ]);
 
     state.people.addAll([

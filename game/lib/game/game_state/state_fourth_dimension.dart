@@ -11,7 +11,7 @@ mixin StateFourthDimension {
   double currentEarthDay = 0.0;
 
   bool _isWorkDay = true;
-  int _speed = 20;
+  int _speed = 100;
 
   List<void Function()> earthDayTicker = [];
   List<void Function()> workDayTicker = [];
