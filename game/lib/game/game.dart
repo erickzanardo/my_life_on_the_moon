@@ -5,6 +5,8 @@ import 'package:flame/extensions/vector2.dart';
 import 'dart:ui';
 import 'dart:math';
 
+import 'widgets/speed_control_overlay.dart';
+
 import 'game_state/game_state.dart';
 import 'game_state/resources.dart';
 
@@ -15,7 +17,7 @@ import 'components/stations_component.dart';
 import 'game_state/stations/stations.dart';
 import 'game_state/people_manager.dart';
 
-class MoonGame extends BaseGame {
+class MoonGame extends BaseGame with HasWidgetsOverlay {
 
   static final gameSize = Vector2(800, 600);
   static final _clipRect = Rect.fromLTWH(0, 0, gameSize.x, gameSize.y);
@@ -84,6 +86,8 @@ class MoonGame extends BaseGame {
     add(GameStateComponent());
     add(DaytimeBackground());
     add(StationsComponent());
+
+    addWidgetOverlay('SpeedControlOverlay', SpeedControlOverlay(this));
   }
 
   @override

@@ -1,6 +1,11 @@
- const EARTH_DAY_DURATION = 60; // secs (2 minutes)
- const WORKDAY_DAY_DURATION = EARTH_DAY_DURATION * 0.4;
- const LUNAR_DAY_DURATION = EARTH_DAY_DURATION * 27;
+const EARTH_DAY_DURATION = 60; // secs (2 minutes)
+const WORKDAY_DAY_DURATION = EARTH_DAY_DURATION * 0.4;
+const LUNAR_DAY_DURATION = EARTH_DAY_DURATION * 27;
+
+const PAUSE_SPEED = 0;
+const NORMAL_SPEED = 1;
+const FAST_SPEED = 10;
+const ULTRA_FAST_SPEED = 100;
 
 mixin StateFourthDimension {
 
@@ -11,31 +16,14 @@ mixin StateFourthDimension {
   double currentEarthDay = 0.0;
 
   bool _isWorkDay = true;
-  int _speed = 100;
+  int _speed = NORMAL_SPEED;
 
   List<void Function()> earthDayTicker = [];
   List<void Function()> workDayTicker = [];
   List<void Function()> lunarDayTicker = [];
 
-  void pauseSpeed() {
-    _speed = 0;
-  }
-
-  void normalSpeed() {
-    _speed = 1;
-  }
-
-  void fastSpeed() {
-    _speed = 3;
-  }
-
-  void superFastSpeed() {
-    _speed = 9;
-  }
-
-  void ultraFastSpeed() {
-    _speed = 20;
-  }
+  int get speed => _speed;
+  set speed(int value) => _speed = value;
 
   void updateTime(double dt)  {
     double _dt = dt * _speed;
@@ -67,5 +55,4 @@ mixin StateFourthDimension {
   get earthDayProgress => currentEarthDay / EARTH_DAY_DURATION;
   get lunarDayProgress => currentLunarDay / LUNAR_DAY_DURATION;
   bool get daytime => lunarDayProgress <= 0.5;
-  int get speed => _speed;
 }
