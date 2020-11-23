@@ -73,5 +73,5 @@ class DaytimeBackground extends Component with HasGameRef<MoonGame> {
   }
 
   @override
-  int priority() => 1;
+  int priority = 1;
 }

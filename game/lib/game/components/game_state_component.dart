@@ -60,5 +60,5 @@ class GameStateComponent extends Component with HasGameRef<MoonGame> {
   }
 
   @override
-  int priority() => 10;
+  int priority = 10;
 }

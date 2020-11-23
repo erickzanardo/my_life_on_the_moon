@@ -1,7 +1,7 @@
 name: life_on_moon
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.0
-  flame: 1.0.0-rc1
+  flame: 1.0.0-rc2
 
 dev_dependencies:
   flutter_test:
@@ -22,3 +22,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/stations/

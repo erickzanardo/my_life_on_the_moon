@@ -12,7 +12,7 @@ import 'game_state/resources.dart';
 
 import 'components/game_state_component.dart';
 import 'components/daytime_background.dart';
-import 'components/stations_component.dart';
+import 'components/stations/stations_component.dart';
 
 import 'game_state/stations/stations.dart';
 import 'game_state/people_manager.dart';
@@ -27,7 +27,7 @@ class MoonGame extends BaseGame with HasWidgetsOverlay {
   Vector2 _gameOffset;
 
   MoonGame(Size screenSize) {
-    size = screenSize.toVector2();
+    size.setFrom(screenSize.toVector2());
     state = GameState()
         ..resources = (
             Resources()
@@ -52,11 +52,11 @@ class MoonGame extends BaseGame with HasWidgetsOverlay {
         ..workingStationId = 5,
       Person()
         ..name = 'Neo'
-        ..age = 28 
+        ..age = 28
         ..workingStationId = 5,
       Person()
         ..name = 'Constantine'
-        ..age = 22 
+        ..age = 22
         ..workingStationId = 6
     ]);
 
@@ -80,6 +80,8 @@ class MoonGame extends BaseGame with HasWidgetsOverlay {
     await Future.wait([
       images.load('earth.png'),
       images.load('sun.png'),
+      // Stations
+      images.load('stations/command_center.png'),
     ]);
 
     // this can be loaded from a saved game eventually
@@ -91,8 +93,8 @@ class MoonGame extends BaseGame with HasWidgetsOverlay {
   }
 
   @override
-  void resize(size) {
-    super.resize(size);
+  void onResize(size) {
+    super.onResize(size);
     calcBoundaries();
   }
 
