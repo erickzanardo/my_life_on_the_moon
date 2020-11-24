@@ -82,6 +82,7 @@ class MoonGame extends BaseGame with HasWidgetsOverlay {
       images.load('sun.png'),
       // Stations
       images.load('stations/command_center.png'),
+      images.load('stations/battery_room.png'),
     ]);
 
     // this can be loaded from a saved game eventually

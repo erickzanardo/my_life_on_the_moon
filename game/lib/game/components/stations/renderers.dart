@@ -17,6 +17,14 @@ StationRenderer stationRenderFactory(Station station, MoonGame game) {
           amount: 8,
           stepTime: 0.15
       );
+    case StationType.BATTERY_ROOM:
+      return BasicAnimationRenderer(
+          station,
+          game,
+          game.images.fromCache('stations/battery_room.png'),
+          amount: 12,
+          stepTime: 0.1
+      );
     default:
       return GenericStationRenderer(station, game);
   }
