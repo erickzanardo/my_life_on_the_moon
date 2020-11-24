@@ -11,6 +11,7 @@ enum StationType {
   WORKSHOP,
   LANDING_PAD,
   WATER_MINE,
+  CONCRETE_FACTORY,
 }
 
 abstract class Station {
@@ -36,7 +37,6 @@ abstract class Station {
 }
 
 mixin FactoryStation on Station {
-
   double progress = 0.0;
   bool hasEnoughResources = false;
 
@@ -63,7 +63,7 @@ mixin FactoryStation on Station {
 class CommandCenter extends Station {
   StationType type() => StationType.COMMAND_CENTER;
 
-  CommandCenter({ Vector2 position, int id }): super(position: position, id: id);
+  CommandCenter({Vector2 position, int id}) : super(position: position, id: id);
 
   int energyRequired() => 4;
   int energyProduction() => 0;
@@ -72,7 +72,7 @@ class CommandCenter extends Station {
 class Barracks extends Station {
   StationType type() => StationType.BARRACKS;
 
-  Barracks({ Vector2 position, int id }): super(position: position, id: id);
+  Barracks({Vector2 position, int id}) : super(position: position, id: id);
 
   int energyRequired() => 2;
   int energyProduction() => 0;
@@ -89,13 +89,13 @@ class BatteryRoom extends Station {
     Vector2 position,
     int id,
     this.capacity = 140,
-  }): super(position: position, id: id);
+  }) : super(position: position, id: id);
 }
 
 class SolarPanel extends Station {
   StationType type() => StationType.SOLAR_PANEL;
 
-  SolarPanel({ Vector2 position, int id }): super(position: position, id: id);
+  SolarPanel({Vector2 position, int id}) : super(position: position, id: id);
 
   int energyRequired() => 0;
   int energyProduction() => 10;
@@ -104,7 +104,7 @@ class SolarPanel extends Station {
 class Farm extends Station with FactoryStation {
   StationType type() => StationType.FARM;
 
-  Farm({ Vector2 position, int id }): super(position: position, id: id);
+  Farm({Vector2 position, int id}) : super(position: position, id: id);
 
   int energyRequired() => 1;
   int energyProduction() => 0;
@@ -134,7 +134,7 @@ class Farm extends Station with FactoryStation {
 class WaterMine extends Station with FactoryStation {
   StationType type() => StationType.WATER_MINE;
 
-  WaterMine({ Vector2 position, int id }): super(position: position, id: id);
+  WaterMine({Vector2 position, int id}) : super(position: position, id: id);
 
   int energyRequired() => 2;
   int energyProduction() => 0;
@@ -148,6 +148,32 @@ class WaterMine extends Station with FactoryStation {
   @override
   void applyProduction(Resources resources) {
     resources.water += 6;
+  }
+
+  @override
+  void consumeResources(_) {
+    hasEnoughResources = true;
+  }
+}
+
+class ConcreteFactory extends Station with FactoryStation {
+  StationType type() => StationType.CONCRETE_FACTORY;
+
+  ConcreteFactory({Vector2 position, int id})
+      : super(position: position, id: id);
+
+  int energyRequired() => 2;
+  int energyProduction() => 0;
+
+  @override
+  double workRequired() => 1.2;
+
+  @override
+  double individualWorkContribution() => 0.6;
+
+  @override
+  void applyProduction(Resources resources) {
+    resources.concrete += 2;
   }
 
   @override
