@@ -18,7 +18,6 @@ import 'game_state/stations/stations.dart';
 import 'game_state/people_manager.dart';
 
 class MoonGame extends BaseGame with HasWidgetsOverlay {
-
   static final gameSize = Vector2(800, 600);
   static final _clipRect = Rect.fromLTWH(0, 0, gameSize.x, gameSize.y);
 
@@ -28,11 +27,7 @@ class MoonGame extends BaseGame with HasWidgetsOverlay {
 
   MoonGame(Size screenSize) {
     size.setFrom(screenSize.toVector2());
-    state = GameState()
-        ..resources = (
-            Resources()
-            ..water = 20
-        );
+    state = GameState()..resources = (Resources()..water = 20);
 
     // Mock data
     state.stations.addAll([
@@ -43,6 +38,7 @@ class MoonGame extends BaseGame with HasWidgetsOverlay {
       Barracks(position: Vector2(-1, -1), id: 4),
       Farm(position: Vector2(-1, -2), id: 5),
       WaterMine(position: Vector2(2, 0), id: 6),
+      ConcreteFactory(position: Vector2(0, 0), id: 7),
     ]);
 
     state.people.addAll([
@@ -57,7 +53,11 @@ class MoonGame extends BaseGame with HasWidgetsOverlay {
       Person()
         ..name = 'Constantine'
         ..age = 22
-        ..workingStationId = 6
+        ..workingStationId = 6,
+      Person()
+        ..name = 'Klaatu'
+        ..age = 20
+        ..workingStationId = 7,
     ]);
 
     state.resources.food = 10;
@@ -70,8 +70,8 @@ class MoonGame extends BaseGame with HasWidgetsOverlay {
     _scaleFactor = scaleRaw - scaleRaw % 0.02;
 
     _gameOffset = Vector2(
-        size.x / 2 - (gameSize.x * _scaleFactor) / 2,
-        size.y / 2 - (gameSize.y * _scaleFactor) / 2,
+      size.x / 2 - (gameSize.x * _scaleFactor) / 2,
+      size.y / 2 - (gameSize.y * _scaleFactor) / 2,
     );
   }
 
