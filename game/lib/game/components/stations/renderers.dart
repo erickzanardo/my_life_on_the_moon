@@ -52,7 +52,8 @@ abstract class StationRenderer {
     );
     _processBackgroundRendering(canvas, rect);
 
-      for (int i = 0; i < station.people.length; i++) {
+    if (station is HumanOperatedStation) {
+      for (int i = 0; i < (station as HumanOperatedStation).people.length; i++) {
         //final person = station.people[i];
 
         final personRect = Rect.fromLTWH(
@@ -64,6 +65,7 @@ abstract class StationRenderer {
 
         canvas.drawRect(personRect, personPaint);
       }
+    }
   }
 
   void _processBackgroundRendering(Canvas canvas, Rect rect);

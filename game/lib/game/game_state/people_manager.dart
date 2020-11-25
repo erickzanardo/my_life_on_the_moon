@@ -53,19 +53,28 @@ mixin PeopleManager {
     toRemove.forEach((p) => people.remove(p));
   }
 
-  Station findBarracks(GameState state) {
+  List<Person> listPeopleWorkingOn(int id) =>
+      people.where((p) => p.workingStationId == id).toList();
+
+  Barracks findBarracks(GameState state) {
     return state.stations.firstWhere((s) => s.type() == StationType.BARRACKS);
   }
 
+  List<HumanOperatedStation> _humanOperatedStations(GameState state) => state.stations.whereType<HumanOperatedStation>().toList();
+
   void _resetStations(GameState state) {
-    state.stations.forEach((s) => s.people.clear());
+    _humanOperatedStations(state).forEach((s) => s.people.clear());
   }
 
   void onDayBegin(GameState state) {
     _resetStations(state);
     people.forEach((person) {
       final workingStation = state.stations.firstWhere((s) => s.id == person.workingStationId);
-      workingStation?.people?.add(person);
+      if (workingStation is HumanOperatedStation) {
+        workingStation?.people?.add(person);
+      } else {
+        print('Invalid station as working place');
+      }
     });
   }
 }

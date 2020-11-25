@@ -19,8 +19,6 @@ abstract class Station {
   bool powered = true;
   int id;
 
-  List<Person> people = [];
-
   String _toString;
 
   @override
@@ -37,7 +35,13 @@ abstract class Station {
   int energyProduction();
 }
 
-mixin FactoryStation on Station {
+mixin HumanOperatedStation on Station {
+  List<Person> people = [];
+  int maxWorkers();
+
+}
+
+mixin FactoryStation on HumanOperatedStation {
   double progress = 0.0;
   bool hasEnoughResources = false;
 
@@ -61,20 +65,26 @@ mixin FactoryStation on Station {
   void consumeResources(Resources resources);
 }
 
-class CommandCenter extends Station {
+class CommandCenter extends Station with HumanOperatedStation {
   StationType type() => StationType.COMMAND_CENTER;
 
   CommandCenter({Vector2 position, int id}) : super(position: position, id: id);
+
+  @override
+  int maxWorkers() => 2;
 
   int energyRequired() => 4;
   int energyProduction() => 0;
   String humanName() => 'Command Center';
 }
 
-class Barracks extends Station {
+class Barracks extends Station with HumanOperatedStation {
   StationType type() => StationType.BARRACKS;
 
   Barracks({Vector2 position, int id}) : super(position: position, id: id);
+
+  @override
+  int maxWorkers() => 10;
 
   int energyRequired() => 2;
   int energyProduction() => 0;
@@ -108,7 +118,7 @@ class SolarPanel extends Station {
   String humanName() => 'Solar Panel';
 }
 
-class Farm extends Station with FactoryStation {
+class Farm extends Station with HumanOperatedStation, FactoryStation {
   StationType type() => StationType.FARM;
 
   Farm({Vector2 position, int id}) : super(position: position, id: id);
@@ -116,6 +126,8 @@ class Farm extends Station with FactoryStation {
   int energyRequired() => 1;
   int energyProduction() => 0;
 
+  @override
+  int maxWorkers() => 4;
   @override
   double workRequired() => 1.0;
 
@@ -140,13 +152,16 @@ class Farm extends Station with FactoryStation {
   String humanName() => 'Farm';
 }
 
-class WaterMine extends Station with FactoryStation {
+class WaterMine extends Station with HumanOperatedStation, FactoryStation {
   StationType type() => StationType.WATER_MINE;
 
   WaterMine({Vector2 position, int id}) : super(position: position, id: id);
 
   int energyRequired() => 2;
   int energyProduction() => 0;
+
+  @override
+  int maxWorkers() => 2;
 
   @override
   double workRequired() => 1.2;
@@ -167,7 +182,7 @@ class WaterMine extends Station with FactoryStation {
   String humanName() => 'Water Mine';
 }
 
-class ConcreteFactory extends Station with FactoryStation {
+class ConcreteFactory extends Station with HumanOperatedStation, FactoryStation {
   StationType type() => StationType.CONCRETE_FACTORY;
 
   ConcreteFactory({Vector2 position, int id})
@@ -175,6 +190,9 @@ class ConcreteFactory extends Station with FactoryStation {
 
   int energyRequired() => 2;
   int energyProduction() => 0;
+
+  @override
+  int maxWorkers() => 2;
 
   @override
   double workRequired() => 1.2;

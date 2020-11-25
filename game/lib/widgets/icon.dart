@@ -6,7 +6,7 @@ class GameIcon extends StatelessWidget {
   final bool selected;
   final VoidCallback onClick;
 
-  GameIcon({ this.icon, this.selected, this.onClick });
+  GameIcon({ this.icon, this.selected = false, this.onClick });
 
   @override
   Widget build(_) {
