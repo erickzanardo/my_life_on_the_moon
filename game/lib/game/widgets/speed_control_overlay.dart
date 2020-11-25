@@ -39,7 +39,7 @@ class _SpeedControlOverlay extends State<SpeedControlOverlay> {
     }
 
     return Positioned(
-        top: 10,
+        bottom: 10,
         right: 50,
         child: GameContainer(
             width: 75,

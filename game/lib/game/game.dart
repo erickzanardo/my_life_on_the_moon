@@ -6,6 +6,7 @@ import 'dart:ui';
 import 'dart:math';
 
 import 'widgets/speed_control_overlay.dart';
+import 'widgets/side_menu_overlay.dart';
 
 import 'game_state/game_state.dart';
 import 'game_state/resources.dart';
@@ -94,6 +95,7 @@ class MoonGame extends BaseGame with HasWidgetsOverlay {
     add(StationsComponent());
 
     addWidgetOverlay('SpeedControlOverlay', SpeedControlOverlay(this));
+    addWidgetOverlay('SideMenuOverlay', SideMenuOverlay(this));
   }
 
   @override

@@ -31,6 +31,7 @@ abstract class Station {
     this.id,
   });
 
+  String humanName();
   StationType type();
   int energyRequired();
   int energyProduction();
@@ -67,6 +68,7 @@ class CommandCenter extends Station {
 
   int energyRequired() => 4;
   int energyProduction() => 0;
+  String humanName() => 'Command Center';
 }
 
 class Barracks extends Station {
@@ -76,6 +78,7 @@ class Barracks extends Station {
 
   int energyRequired() => 2;
   int energyProduction() => 0;
+  String humanName() => 'Barracks';
 }
 
 class BatteryRoom extends Station {
@@ -90,6 +93,8 @@ class BatteryRoom extends Station {
     int id,
     this.capacity = 150,
   }) : super(position: position, id: id);
+
+  String humanName() => 'Battery Room';
 }
 
 class SolarPanel extends Station {
@@ -99,6 +104,8 @@ class SolarPanel extends Station {
 
   int energyRequired() => 0;
   int energyProduction() => 12;
+
+  String humanName() => 'Solar Panel';
 }
 
 class Farm extends Station with FactoryStation {
@@ -129,6 +136,8 @@ class Farm extends Station with FactoryStation {
       hasEnoughResources = false;
     }
   }
+
+  String humanName() => 'Farm';
 }
 
 class WaterMine extends Station with FactoryStation {
@@ -154,6 +163,8 @@ class WaterMine extends Station with FactoryStation {
   void consumeResources(_) {
     hasEnoughResources = true;
   }
+
+  String humanName() => 'Water Mine';
 }
 
 class ConcreteFactory extends Station with FactoryStation {
@@ -180,4 +191,6 @@ class ConcreteFactory extends Station with FactoryStation {
   void consumeResources(_) {
     hasEnoughResources = true;
   }
+
+  String humanName() => 'Concrete Factory';
 }
