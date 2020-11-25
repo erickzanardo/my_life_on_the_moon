@@ -62,6 +62,9 @@ class MoonGame extends BaseGame with HasWidgetsOverlay {
 
     state.resources.food = 10;
 
+    // This probably can't be here when we have saved games and stuff
+    state.onDayBegin(state);
+
     calcBoundaries();
   }
 

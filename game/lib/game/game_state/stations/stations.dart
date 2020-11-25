@@ -88,7 +88,7 @@ class BatteryRoom extends Station {
   BatteryRoom({
     Vector2 position,
     int id,
-    this.capacity = 140,
+    this.capacity = 150,
   }) : super(position: position, id: id);
 }
 
@@ -98,7 +98,7 @@ class SolarPanel extends Station {
   SolarPanel({Vector2 position, int id}) : super(position: position, id: id);
 
   int energyRequired() => 0;
-  int energyProduction() => 10;
+  int energyProduction() => 12;
 }
 
 class Farm extends Station with FactoryStation {
@@ -117,7 +117,7 @@ class Farm extends Station with FactoryStation {
 
   @override
   void applyProduction(Resources resources) {
-    resources.food += 8;
+    resources.food += 12;
   }
 
   @override
