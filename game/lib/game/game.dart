@@ -1,6 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:flame/extensions/size.dart';
 import 'package:flame/extensions/vector2.dart';
+import 'package:flame/extensions/offset.dart';
+import 'package:flame/gestures.dart';
 
 import 'dart:ui';
 import 'dart:math';
@@ -18,13 +21,16 @@ import 'components/stations/stations_component.dart';
 import 'game_state/stations/stations.dart';
 import 'game_state/people_manager.dart';
 
-class MoonGame extends BaseGame with HasWidgetsOverlay {
+class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, ScrollDetector {
   static final gameSize = Vector2(800, 600);
   static final _clipRect = Rect.fromLTWH(0, 0, gameSize.x, gameSize.y);
 
   GameState state;
   double _scaleFactor;
   Vector2 _gameOffset;
+
+  Vector2 _panOffest = Vector2.zero();
+  double _zoomFactor = 1.0;
 
   MoonGame(Size screenSize) {
     size.setFrom(screenSize.toVector2());
@@ -33,13 +39,13 @@ class MoonGame extends BaseGame with HasWidgetsOverlay {
     // Mock data
     state.stations.addAll([
       CommandCenter(position: Vector2(-2, 0), id: 1),
-      SolarPanel(position: Vector2(1, 0), id: 2),
-      SolarPanel(position: Vector2(0, 0), id: 2),
-      BatteryRoom(position: Vector2(-1, 0), id: 3),
-      Barracks(position: Vector2(-1, -1), id: 4),
-      Farm(position: Vector2(-1, -2), id: 5),
-      WaterMine(position: Vector2(2, 0), id: 6),
-      ConcreteFactory(position: Vector2(0, 0), id: 7),
+      SolarPanel(position: Vector2(2, 0), id: 2),
+      SolarPanel(position: Vector2(3, 0), id: 3),
+      BatteryRoom(position: Vector2(-1, 0), id: 4),
+      Barracks(position: Vector2(-1, -1), id: 5),
+      Farm(position: Vector2(-1, -2), id: 6),
+      WaterMine(position: Vector2(1, 0), id: 7),
+      ConcreteFactory(position: Vector2(0, 0), id: 8),
     ]);
 
     state.people.addAll([
@@ -111,7 +117,39 @@ class MoonGame extends BaseGame with HasWidgetsOverlay {
     canvas.translate(_gameOffset.x, _gameOffset.y);
     canvas.scale(_scaleFactor, _scaleFactor);
     canvas.clipRect(_clipRect);
+    canvas.scale(_zoomFactor, _zoomFactor);
+    canvas.translate(_panOffest.x, _panOffest.y);
     super.render(canvas);
     canvas.restore();
+  }
+
+  @override
+  void onReceiveDrag(DragEvent event) {
+    onPanStart(event.initialPosition);
+
+    event
+      ..onUpdate = onPanUpdate
+      ..onEnd = onPanEnd
+      ..onCancel = onPanCancel;
+  }
+
+    void onPanCancel() {
+  }
+
+  void onPanStart(Offset position) {
+  }
+
+  void onPanUpdate(DragUpdateDetails details) {
+    _panOffest += details.delta.toVector2();
+  }
+
+  void onPanEnd(DragEndDetails details) {
+  }
+
+  @override
+  void onScroll(details) {
+    final delta = details.scrollDelta.dy / 100;
+    _zoomFactor -= delta;
+    _panOffest -= details.scrollDelta.toVector2();
   }
 }
