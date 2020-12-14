@@ -29,8 +29,8 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
   double _scaleFactor;
   Vector2 _gameOffset;
 
-  Vector2 _panOffest = Vector2.zero();
-  double _zoomFactor = 1.0;
+  Vector2 panOffest = Vector2.zero();
+  double zoomFactor = 1.0;
 
   MoonGame(Size screenSize) {
     size.setFrom(screenSize.toVector2());
@@ -117,8 +117,6 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
     canvas.translate(_gameOffset.x, _gameOffset.y);
     canvas.scale(_scaleFactor, _scaleFactor);
     canvas.clipRect(_clipRect);
-    canvas.scale(_zoomFactor, _zoomFactor);
-    canvas.translate(_panOffest.x, _panOffest.y);
     super.render(canvas);
     canvas.restore();
   }
@@ -140,7 +138,7 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
   }
 
   void onPanUpdate(DragUpdateDetails details) {
-    _panOffest += details.delta.toVector2();
+    panOffest += details.delta.toVector2();
   }
 
   void onPanEnd(DragEndDetails details) {
@@ -148,8 +146,12 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
 
   @override
   void onScroll(details) {
-    final delta = details.scrollDelta.dy / 100;
-    _zoomFactor -= delta;
-    _panOffest -= details.scrollDelta.toVector2();
+    if ((details.scrollDelta.dy < 0 && zoomFactor < 2) || (details.scrollDelta.dy > 0 && zoomFactor > 0.5)) {
+      final delta = details.scrollDelta.dy / 100;
+      zoomFactor -= delta;
+      zoomFactor = min(zoomFactor, 2);
+      zoomFactor = max(zoomFactor, 0.5);
+      panOffest -= details.scrollDelta.toVector2();
+    }
   }
 }

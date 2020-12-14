@@ -27,6 +27,9 @@ class StationsComponent extends Component with HasGameRef<MoonGame> {
     canvas.save();
     canvas.translate(MoonGame.gameSize.x / 2, MoonGame.gameSize.y - 20); // Small border
 
+    canvas.scale(gameRef.zoomFactor, gameRef.zoomFactor);
+    canvas.translate(gameRef.panOffest.x, gameRef.panOffest.y);
+
     renderers.values.forEach((r) => r.render(canvas));
 
     canvas.restore();
