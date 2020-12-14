@@ -28,9 +28,8 @@ class StationsComponent extends Component with HasGameRef<MoonGame> {
   void render(Canvas canvas) {
     canvas.save();
     canvas.translate(offset.x, offset.y);
-
-    canvas.scale(gameRef.zoomFactor, gameRef.zoomFactor);
     canvas.translate(gameRef.panOffest.x, gameRef.panOffest.y);
+    canvas.scale(gameRef.zoomFactor, gameRef.zoomFactor);
 
     renderers.values.forEach((r) => r.render(canvas));
 
@@ -41,8 +40,8 @@ class StationsComponent extends Component with HasGameRef<MoonGame> {
   int priority = 3;
 
   void onTap(Vector2 screenPos) {
-    final panPos = (screenPos - gameRef.panOffest) * gameRef.zoomFactor;
-    final translated = (panPos - offset);
+    final panPos = screenPos - gameRef.panOffest;
+    final translated = (panPos - offset) / gameRef.scaleFactor / gameRef.zoomFactor;
 
     final station = gameRef.state.stations.firstWhere(
         (s) => createStationRect(s).contains(translated.toOffset()),

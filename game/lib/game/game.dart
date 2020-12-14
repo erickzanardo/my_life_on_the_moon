@@ -27,7 +27,7 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
   static final _clipRect = Rect.fromLTWH(0, 0, gameSize.x, gameSize.y);
 
   GameState state;
-  double _scaleFactor;
+  double scaleFactor;
   Vector2 _gameOffset;
 
   Vector2 panOffest = Vector2.zero();
@@ -78,11 +78,11 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
 
   void calcBoundaries() {
     final scaleRaw = min(size.y / gameSize.y, size.x / gameSize.x);
-    _scaleFactor = scaleRaw - scaleRaw % 0.02;
+    scaleFactor = scaleRaw - scaleRaw % 0.02;
 
     _gameOffset = Vector2(
-      size.x / 2 - (gameSize.x * _scaleFactor) / 2,
-      size.y / 2 - (gameSize.y * _scaleFactor) / 2,
+      size.x / 2 - (gameSize.x * scaleFactor) / 2,
+      size.y / 2 - (gameSize.y * scaleFactor) / 2,
     );
   }
 
@@ -116,7 +116,8 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
   void render(Canvas canvas) {
     canvas.save();
     canvas.translate(_gameOffset.x, _gameOffset.y);
-    canvas.scale(_scaleFactor, _scaleFactor);
+
+    canvas.scale(scaleFactor, scaleFactor);
     canvas.clipRect(_clipRect);
     super.render(canvas);
     canvas.restore();
@@ -145,7 +146,7 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
 
   @override
   void onTapUp(int i, details) {
-    final translatedPos = (details.localPosition.toVector2() - _gameOffset) / _scaleFactor;
+    final translatedPos = (details.localPosition.toVector2() - _gameOffset);
 
     components.whereType<StationsComponent>().forEach((c) {
       c.onTap(translatedPos);
