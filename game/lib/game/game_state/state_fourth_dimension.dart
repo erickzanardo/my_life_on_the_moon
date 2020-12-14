@@ -15,7 +15,7 @@ mixin StateFourthDimension {
   double currentLunarDay = 0.0;
   double currentEarthDay = 0.0;
 
-  bool _isWorkDay = true;
+  bool isWorkDay = true;
   int _speed = NORMAL_SPEED;
 
   List<void Function()> earthDayTicker = [];
@@ -31,14 +31,14 @@ mixin StateFourthDimension {
     currentEarthDay += _dt;
     currentLunarDay += _dt;
 
-    if (currentEarthDay >= WORKDAY_DAY_DURATION && _isWorkDay) {
+    if (currentEarthDay >= WORKDAY_DAY_DURATION && isWorkDay) {
       workDayTicker.forEach((ticker) => ticker.call());
-      _isWorkDay = false;
+      isWorkDay = false;
     }
 
     if (currentEarthDay >= EARTH_DAY_DURATION) {
       earthDayTicker.forEach((ticker) => ticker.call());
-      _isWorkDay = true;
+      isWorkDay = true;
 
       pastEarthDays++;
       currentEarthDay -= EARTH_DAY_DURATION;

@@ -53,11 +53,11 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
       Person()
         ..name = 'John'
         ..age = 30
-        ..workingStationId = 5,
+        ..workingStationId = 1,
       Person()
         ..name = 'Neo'
         ..age = 28
-        ..workingStationId = 5,
+        ..workingStationId = 6,
       Person()
         ..name = 'Constantine'
         ..age = 22
@@ -95,6 +95,7 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
       images.load('stations/command_center.png'),
       images.load('stations/battery_room.png'),
       images.load('stations/farm.png'),
+      images.load('stations/solar_panel.png'),
     ]);
 
     // this can be loaded from a saved game eventually

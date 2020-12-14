@@ -10,12 +10,12 @@ import '../../game.dart';
 StationRenderer stationRenderFactory(Station station, MoonGame game) {
   switch(station.type()) {
     case StationType.COMMAND_CENTER:
-      return BasicAnimationRenderer(
+      return WorkShiftOnlyAnimationRenderer(
           station,
           game,
           game.images.fromCache('stations/command_center.png'),
           amount: 8,
-          stepTime: 0.15
+          stepTime: 0.15,
       );
     case StationType.BATTERY_ROOM:
       return BasicAnimationRenderer(
@@ -23,15 +23,23 @@ StationRenderer stationRenderFactory(Station station, MoonGame game) {
           game,
           game.images.fromCache('stations/battery_room.png'),
           amount: 12,
-          stepTime: 0.1
+          stepTime: 0.1,
       );
     case StationType.FARM:
-      return BasicAnimationRenderer(
+      return WorkShiftOnlyAnimationRenderer(
           station,
           game,
           game.images.fromCache('stations/farm.png'),
           amount: 4,
-          stepTime: 0.2
+          stepTime: 0.2,
+      );
+    case StationType.SOLAR_PANEL:
+      return DayOnlyAnimationRenderer(
+          station,
+          game,
+          game.images.fromCache('stations/solar_panel.png'),
+          amount: 4,
+          stepTime: 0.25,
       );
     default:
       return GenericStationRenderer(station, game);
@@ -134,5 +142,39 @@ class BasicAnimationRenderer extends StationRenderer {
   @override
   void _processBackgroundRendering(Canvas canvas, Rect rect) {
     _animation.getSprite().renderRect(canvas, rect);
+  }
+}
+
+class DayOnlyAnimationRenderer extends BasicAnimationRenderer {
+  DayOnlyAnimationRenderer(
+      Station station,
+      MoonGame gameRef,
+      Image image, {
+      int amount,
+      double stepTime,
+  }) : super(station, gameRef, image, amount: amount, stepTime: stepTime);
+
+  @override
+  void update(double dt) {
+    if (gameRef.state.daytime) {
+      super.update(dt);
+    }
+  }
+}
+
+class WorkShiftOnlyAnimationRenderer extends BasicAnimationRenderer {
+  WorkShiftOnlyAnimationRenderer(
+      Station station,
+      MoonGame gameRef,
+      Image image, {
+      int amount,
+      double stepTime,
+  }) : super(station, gameRef, image, amount: amount, stepTime: stepTime);
+
+  @override
+  void update(double dt) {
+    if (gameRef.state.isWorkDay) {
+      super.update(dt);
+    }
   }
 }
