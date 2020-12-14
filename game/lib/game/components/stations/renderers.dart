@@ -25,6 +25,14 @@ StationRenderer stationRenderFactory(Station station, MoonGame game) {
           amount: 12,
           stepTime: 0.1
       );
+    case StationType.FARM:
+      return BasicAnimationRenderer(
+          station,
+          game,
+          game.images.fromCache('stations/farm.png'),
+          amount: 4,
+          stepTime: 0.2
+      );
     default:
       return GenericStationRenderer(station, game);
   }
