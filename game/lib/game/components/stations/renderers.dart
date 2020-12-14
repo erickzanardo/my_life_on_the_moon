@@ -41,6 +41,7 @@ StationRenderer stationRenderFactory(Station station, MoonGame game) {
 abstract class StationRenderer {
   static final personPaint = Paint()..color = Color(0xFFB1B1B1);
   static final stationSize = Vector2(150, 50);
+  static final stationOffPaint = Paint()..color = Color(0xAA000000);
 
   final Station station;
   final MoonGame gameRef;
@@ -74,6 +75,10 @@ abstract class StationRenderer {
         canvas.drawRect(personRect, personPaint);
       }
     }
+
+    if (!station.powered) {
+      canvas.drawRect(rect, stationOffPaint);
+    }
   }
 
   void _processBackgroundRendering(Canvas canvas, Rect rect);
@@ -81,7 +86,6 @@ abstract class StationRenderer {
 
 class GenericStationRenderer extends StationRenderer {
   static final stationPaint = Paint()..color = Color(0xFFFFFFFF);
-  static final stationOffPaint = Paint()..color = Color(0xFFA9A9A9);
   static final stationStrokePaint = Paint()..color = Color(0xFF00FF00)..style = PaintingStyle.stroke..strokeWidth = 2;
   static final roomNameConfig = TextConfig(
       fontSize: 10,
@@ -94,7 +98,7 @@ class GenericStationRenderer extends StationRenderer {
   void _processBackgroundRendering(Canvas canvas, Rect rect) {
     canvas.drawRect(
         rect,
-        station.powered ? stationPaint : stationOffPaint,
+        stationPaint,
     );
     canvas.drawRect(
         rect,
