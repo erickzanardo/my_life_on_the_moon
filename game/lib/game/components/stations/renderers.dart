@@ -38,9 +38,18 @@ StationRenderer stationRenderFactory(Station station, MoonGame game) {
   }
 }
 
+final stationSize = Vector2(150, 50);
+Rect createStationRect(Station station) => Rect.fromCenter(
+    center: Offset(
+        station.position.x * stationSize.x,
+        station.position.y * stationSize.y,
+    ),
+    width: stationSize.x,
+    height: stationSize.y,
+);
+
 abstract class StationRenderer {
   static final personPaint = Paint()..color = Color(0xFFB1B1B1);
-  static final stationSize = Vector2(150, 50);
   static final stationOffPaint = Paint()..color = Color(0xAA000000);
 
   final Station station;
@@ -51,14 +60,7 @@ abstract class StationRenderer {
   void update(double dt) {}
 
   void render(Canvas canvas) {
-    final rect = Rect.fromCenter(
-        center: Offset(
-            station.position.x * stationSize.x,
-            station.position.y * stationSize.y,
-        ),
-        width: stationSize.x,
-        height: stationSize.y,
-    );
+    final rect = createStationRect(station);
     _processBackgroundRendering(canvas, rect);
 
     if (station is HumanOperatedStation) {

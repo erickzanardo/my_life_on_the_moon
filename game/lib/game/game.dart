@@ -10,6 +10,7 @@ import 'dart:math';
 
 import 'widgets/speed_control_overlay.dart';
 import 'widgets/side_menu_overlay.dart';
+import 'widgets/station_details_panel.dart';
 
 import 'game_state/game_state.dart';
 import 'game_state/resources.dart';
@@ -21,7 +22,7 @@ import 'components/stations/stations_component.dart';
 import 'game_state/stations/stations.dart';
 import 'game_state/people_manager.dart';
 
-class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, ScrollDetector {
+class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, ScrollDetector, MultiTouchTapDetector {
   static final gameSize = Vector2(800, 600);
   static final _clipRect = Rect.fromLTWH(0, 0, gameSize.x, gameSize.y);
 
@@ -123,25 +124,12 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
 
   @override
   void onReceiveDrag(DragEvent event) {
-    onPanStart(event.initialPosition);
-
     event
-      ..onUpdate = onPanUpdate
-      ..onEnd = onPanEnd
-      ..onCancel = onPanCancel;
-  }
-
-    void onPanCancel() {
-  }
-
-  void onPanStart(Offset position) {
+      ..onUpdate = onPanUpdate;
   }
 
   void onPanUpdate(DragUpdateDetails details) {
     panOffest += details.delta.toVector2();
-  }
-
-  void onPanEnd(DragEndDetails details) {
   }
 
   @override
@@ -153,5 +141,21 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
       zoomFactor = max(zoomFactor, 0.5);
       panOffest -= details.scrollDelta.toVector2();
     }
+  }
+
+  @override
+  void onTapUp(int i, details) {
+    final translatedPos = (details.localPosition.toVector2() - _gameOffset) / _scaleFactor;
+
+    components.whereType<StationsComponent>().forEach((c) {
+      c.onTap(translatedPos);
+    });
+  }
+
+  void onSelectStation(Station station) {
+    addWidgetOverlay(
+        StationDetailsPanelOverlay.OVERLAY_ID,
+        StationDetailsPanelOverlay(this, station),
+    );
   }
 }
