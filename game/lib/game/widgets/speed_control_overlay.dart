@@ -7,6 +7,8 @@ import '../game.dart';
 
 class SpeedControlOverlay extends StatefulWidget {
 
+  static const OVERLAY_ID = 'SpeedControlOverlay';
+
   final MoonGame game;
 
   SpeedControlOverlay(this.game);

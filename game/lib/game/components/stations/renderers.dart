@@ -63,13 +63,21 @@ abstract class StationRenderer {
   final Station station;
   final MoonGame gameRef;
 
-  StationRenderer(this.station, this.gameRef);
+  Rect _rect;
+  Vector2 _position;
+  Vector2 _size;
+
+  StationRenderer(this.station, this.gameRef) {
+    _rect = createStationRect(station);
+    _position = Vector2(_rect.left, _rect.top);
+    _size = Vector2(_rect.width, _rect.height);
+  }
 
   void update(double dt) {}
 
   void render(Canvas canvas) {
     final rect = createStationRect(station);
-    _processBackgroundRendering(canvas, rect);
+    _processBackgroundRendering(canvas);
 
     if (station is HumanOperatedStation) {
       for (int i = 0; i < (station as HumanOperatedStation).people.length; i++) {
@@ -91,7 +99,7 @@ abstract class StationRenderer {
     }
   }
 
-  void _processBackgroundRendering(Canvas canvas, Rect rect);
+  void _processBackgroundRendering(Canvas canvas);
 }
 
 class GenericStationRenderer extends StationRenderer {
@@ -105,16 +113,16 @@ class GenericStationRenderer extends StationRenderer {
   GenericStationRenderer(Station station, MoonGame gameRef): super(station, gameRef);
 
   @override
-  void _processBackgroundRendering(Canvas canvas, Rect rect) {
+  void _processBackgroundRendering(Canvas canvas) {
     canvas.drawRect(
-        rect,
+        _rect,
         stationPaint,
     );
     canvas.drawRect(
-        rect,
+        _rect,
         stationStrokePaint,
     );
-    roomNameConfig.render(canvas, station.toString(), Vector2(rect.left, rect.top));
+    roomNameConfig.render(canvas, station.toString(), _position);
   }
 }
 
@@ -128,11 +136,13 @@ class BasicAnimationRenderer extends StationRenderer {
       int amount,
       double stepTime,
   }): super(station, gameRef) {
-    _animation = SpriteAnimation.sequenced(
+    _animation = SpriteAnimation.fromFrameData(
         image,
-        amount,
-        textureSize: Vector2(150, 50),
-        stepTime: stepTime,
+        SpriteAnimationData.sequenced(
+            amount: amount,
+            textureSize: Vector2(150, 50),
+            stepTime: stepTime,
+        ),
     );
   }
 
@@ -140,8 +150,8 @@ class BasicAnimationRenderer extends StationRenderer {
   void update(double dt) => _animation.update(dt * gameRef.state.speed);
 
   @override
-  void _processBackgroundRendering(Canvas canvas, Rect rect) {
-    _animation.getSprite().renderRect(canvas, rect);
+  void _processBackgroundRendering(Canvas canvas) {
+    _animation.getSprite().render(canvas, position: _position, size: _size);
   }
 }
 

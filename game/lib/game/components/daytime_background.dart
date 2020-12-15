@@ -3,6 +3,7 @@ import 'package:flutter/animation.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/components/component.dart';
 import 'package:flame/components/mixins/has_game_ref.dart';
+import 'package:flame/extensions/offset.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:ui';
@@ -20,7 +21,8 @@ class DaytimeBackground extends Component with HasGameRef<MoonGame> {
 
   ParametricCurve<Vector2> curve;
   bool daytime;
-  Rect rect;
+  Vector2 position;
+  Vector2 size;
 
   @override
   void onMount() {
@@ -35,10 +37,12 @@ class DaytimeBackground extends Component with HasGameRef<MoonGame> {
 
     if (!daytime) {
       curve = makeBodyParabola(-EARTH_SIZE, MoonGame.gameSize.x + EARTH_SIZE);
-      rect = curve.transform(0).toOffset() & Vector2.all(EARTH_SIZE).toSize();
+      position = curve.transform(0).toOffset().toVector2();
+      size = Vector2.all(EARTH_SIZE);
     } else {
       curve = makeBodyParabola(MoonGame.gameSize.x + SUN_SIZE, -SUN_SIZE);
-      rect = curve.transform(0).toOffset() & Vector2.all(SUN_SIZE).toSize();
+      position = curve.transform(0).toOffset().toVector2();
+      size = Vector2.all(SUN_SIZE);
     }
   }
 
@@ -58,9 +62,9 @@ class DaytimeBackground extends Component with HasGameRef<MoonGame> {
   @override
   void render(Canvas canvas) {
     if (daytime) {
-      sunSprite.renderRect(canvas, rect);
+      sunSprite.render(canvas, position: position, size: size);
     } else {
-      earthSprite.renderRect(canvas, rect);
+      earthSprite.render(canvas, position: position, size: size);
     }
   }
 
@@ -71,7 +75,7 @@ class DaytimeBackground extends Component with HasGameRef<MoonGame> {
       calcTrajectory();
     } else {
       final progress = 1 - ((gameRef.state.lunarDayProgress - 0.5).abs() / 0.5);
-      rect = curve.transform(progress).toOffset() & rect.size;
+      position = curve.transform(progress).toOffset().toVector2();
     }
   }
 

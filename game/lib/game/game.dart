@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
-import 'package:flame/extensions/size.dart';
 import 'package:flame/extensions/vector2.dart';
 import 'package:flame/extensions/offset.dart';
 import 'package:flame/gestures.dart';
@@ -22,7 +21,7 @@ import 'components/stations/stations_component.dart';
 import 'game_state/stations/stations.dart';
 import 'game_state/people_manager.dart';
 
-class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, ScrollDetector, MultiTouchTapDetector {
+class MoonGame extends BaseGame with MultiTouchDragDetector, ScrollDetector, MultiTouchTapDetector {
   static final gameSize = Vector2(800, 600);
   static final _clipRect = Rect.fromLTWH(0, 0, gameSize.x, gameSize.y);
 
@@ -33,8 +32,7 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
   Vector2 panOffest = Vector2.zero();
   double zoomFactor = 1.0;
 
-  MoonGame(Size screenSize) {
-    size.setFrom(screenSize.toVector2());
+  MoonGame() {
     state = GameState()..resources = (Resources()..water = 20);
 
     // Mock data
@@ -103,8 +101,8 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
     add(DaytimeBackground());
     add(StationsComponent());
 
-    addWidgetOverlay('SpeedControlOverlay', SpeedControlOverlay(this));
-    addWidgetOverlay('SideMenuOverlay', SideMenuOverlay(this));
+    overlays.add(SideMenuOverlay.OVERLAY_ID);
+    overlays.add(SpeedControlOverlay.OVERLAY_ID);
   }
 
   @override
@@ -154,10 +152,10 @@ class MoonGame extends BaseGame with HasWidgetsOverlay, MultiTouchDragDetector, 
     });
   }
 
+  Station selectedStation;
   void onSelectStation(Station station) {
-    addWidgetOverlay(
-        StationDetailsPanelOverlay.OVERLAY_ID,
-        StationDetailsPanelOverlay(this, station),
-    );
+    selectedStation = station;
+
+    overlays.add(StationDetailsPanelOverlay.OVERLAY_ID);
   }
 }

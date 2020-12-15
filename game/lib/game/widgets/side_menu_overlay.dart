@@ -8,6 +8,8 @@ import '../game.dart';
 
 class SideMenuOverlay extends StatefulWidget {
 
+  static const OVERLAY_ID = 'SideMenuOverlay';
+
   final MoonGame game;
 
   SideMenuOverlay(this.game);
@@ -39,10 +41,7 @@ class _SideMenuOverlay extends State<SideMenuOverlay> {
                       icon: Icons.apartment,
                       selected: false,
                       onClick: () {
-                        widget.game.addWidgetOverlay(
-                            StationListPanel.OVERLAY_ID,
-                            StationListPanel(widget.game),
-                        );
+                        widget.game.overlays.add(StationListPanel.OVERLAY_ID);
                       },
                   ),
                 ],

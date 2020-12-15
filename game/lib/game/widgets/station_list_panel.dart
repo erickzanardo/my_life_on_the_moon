@@ -53,7 +53,7 @@ class StationListPanel extends StatelessWidget {
                 child:GameButton(
                     label: 'Close',
                     onPress: () {
-                      game.removeWidgetOverlay(OVERLAY_ID);
+                      game.overlays.remove(OVERLAY_ID);
                     }),
             ),
           ],

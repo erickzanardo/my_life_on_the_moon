@@ -4,15 +4,13 @@ import 'package:life_on_moon/widgets/container.dart';
 
 import '../../widgets/title.dart';
 import '../../widgets/button.dart';
-import '../game_state/stations/stations.dart';
 
 class StationDetailsPanelOverlay extends StatelessWidget {
   static const OVERLAY_ID = 'StationDetailsPanelOverlay';
 
   final MoonGame game;
-  final Station station;
 
-  StationDetailsPanelOverlay(this.game, this.station);
+  StationDetailsPanelOverlay(this.game);
 
   @override
   Widget build(_) {
@@ -23,13 +21,13 @@ class StationDetailsPanelOverlay extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            GameTitle(station.humanName()),
+            GameTitle(game.selectedStation?.humanName()),
             Padding(
                 padding: EdgeInsets.only(top: 20),
                 child:GameButton(
                     label: 'Close',
                     onPress: () {
-                      game.removeWidgetOverlay(OVERLAY_ID);
+                      game.overlays.remove(OVERLAY_ID);
                     }),
             ),
           ],
