@@ -36,11 +36,11 @@ class DaytimeBackground extends Component with HasGameRef<MoonGame> {
     daytime = gameRef.state.daytime;
 
     if (!daytime) {
-      curve = makeBodyParabola(-EARTH_SIZE, MoonGame.gameSize.x + EARTH_SIZE);
+      curve = makeBodyParabola(-EARTH_SIZE, gameRef.size.x + EARTH_SIZE);
       position = curve.transform(0).toOffset().toVector2();
       size = Vector2.all(EARTH_SIZE);
     } else {
-      curve = makeBodyParabola(MoonGame.gameSize.x + SUN_SIZE, -SUN_SIZE);
+      curve = makeBodyParabola(gameRef.size.x + SUN_SIZE, -SUN_SIZE);
       position = curve.transform(0).toOffset().toVector2();
       size = Vector2.all(SUN_SIZE);
     }

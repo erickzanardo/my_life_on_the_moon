@@ -10,7 +10,7 @@ import './renderers.dart';
 class StationsComponent extends Component with HasGameRef<MoonGame> {
 
   Map<int, StationRenderer> renderers = {};
-  Vector2 offset = Vector2(MoonGame.gameSize.x / 2, MoonGame.gameSize.y - 20); // Small border
+  Vector2 offset;
 
   @override
   void update(double dt) {
@@ -25,10 +25,25 @@ class StationsComponent extends Component with HasGameRef<MoonGame> {
   }
 
   @override
+  void onMount() {
+    calcOffset();
+  }
+
+  void calcOffset() {
+    offset = Vector2(gameRef.size.x / 2, gameRef.size.y - 20); // Small border
+  }
+
+  @override
+  void onGameResize(Vector2 gameSize) {
+    super.onGameResize(gameSize);
+    calcOffset();
+  }
+
+  @override
   void render(Canvas canvas) {
     canvas.save();
-    canvas.translate(offset.x, offset.y);
     canvas.translate(gameRef.panOffest.x, gameRef.panOffest.y);
+    canvas.translate(offset.x, offset.y);
     canvas.scale(gameRef.zoomFactor, gameRef.zoomFactor);
 
     renderers.values.forEach((r) => r.render(canvas));
@@ -41,7 +56,7 @@ class StationsComponent extends Component with HasGameRef<MoonGame> {
 
   void onTap(Vector2 screenPos) {
     final panPos = screenPos - gameRef.panOffest;
-    final translated = (panPos - offset) / gameRef.scaleFactor / gameRef.zoomFactor;
+    final translated = (panPos - offset) / gameRef.zoomFactor;
 
     final station = gameRef.state.stations.firstWhere(
         (s) => createStationRect(s).contains(translated.toOffset()),

@@ -22,22 +22,22 @@ class GameStateComponent extends Component with HasGameRef<MoonGame> {
     label.render(
         canvas,
         "Earth days: ${state.pastEarthDays} Lunar days: ${state.pastLunarDays}",
-        Vector2(10, 10),
+        Vector2(0, 0),
     );
     label.render(
         canvas,
         "(Current) Earth day ${state.earthDayProgress.toStringAsFixed(2)} Lunar day: ${state.lunarDayProgress.toStringAsFixed(2)}",
-        Vector2(10, 30),
+        Vector2(0, 20),
     );
     label.render(
         canvas,
         "Daytime ${state.daytime}",
-        Vector2(10, 50),
+        Vector2(0, 40),
     );
     label.render(
         canvas,
         "Speed factor ${state.speed}",
-        Vector2(10, 70),
+        Vector2(0, 60),
     );
 
     label.render(
