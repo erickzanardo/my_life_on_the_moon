@@ -5,7 +5,7 @@ import 'package:flame/extensions/vector2.dart';
 import 'dart:ui';
 
 import '../../game.dart';
-import './renderers.dart';
+import './renderers/renderers.dart';
 
 class StationsComponent extends Component with HasGameRef<MoonGame> {
 

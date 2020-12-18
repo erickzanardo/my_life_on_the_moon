@@ -1,12 +1,13 @@
 import 'package:flame/extensions/vector2.dart';
-import 'package:flame/sprite.dart';
 import 'package:flame/sprite_animation.dart';
 import 'package:flame/text_config.dart';
 
 import 'dart:ui';
 
-import '../../game_state/stations/stations.dart';
-import '../../game.dart';
+import '../../../game_state/stations/stations.dart';
+import '../../../game.dart';
+
+import './barracks.dart';
 
 StationRenderer stationRenderFactory(Station station, MoonGame game) {
   switch(station.type()) {
@@ -69,22 +70,31 @@ abstract class StationRenderer {
   final Station station;
   final MoonGame gameRef;
 
-  Rect _rect;
-  Vector2 _position;
-  Vector2 _size;
+  Rect rect;
+  Vector2 position;
+  Vector2 size;
+  Vector2 personSize = Vector2(8, 16);
 
   StationRenderer(this.station, this.gameRef) {
-    _rect = createStationRect(station);
-    _position = Vector2(_rect.left, _rect.top);
-    _size = Vector2(_rect.width, _rect.height);
+    rect = createStationRect(station);
+    position = Vector2(rect.left, rect.top);
+    size = Vector2(rect.width, rect.height);
   }
 
   void update(double dt) {}
 
   void render(Canvas canvas) {
-    final rect = createStationRect(station);
-    _processBackgroundRendering(canvas);
+    processBackgroundRendering(canvas);
+    renderPeople(canvas);
 
+    if (!station.powered) {
+      canvas.drawRect(rect, stationOffPaint);
+    }
+  }
+
+  void processBackgroundRendering(Canvas canvas);
+
+  void renderPeople(Canvas canvas) {
     if (station is HumanOperatedStation) {
       for (int i = 0; i < (station as HumanOperatedStation).people.length; i++) {
         //final person = station.people[i];
@@ -92,20 +102,15 @@ abstract class StationRenderer {
         final personRect = Rect.fromLTWH(
             rect.left + (20 * i),
             rect.bottom - 20,
-            10,
-            20,
+            personSize.x,
+            personSize.y,
         );
 
         canvas.drawRect(personRect, personPaint);
       }
     }
 
-    if (!station.powered) {
-      canvas.drawRect(rect, stationOffPaint);
-    }
   }
-
-  void _processBackgroundRendering(Canvas canvas);
 }
 
 class GenericStationRenderer extends StationRenderer {
@@ -119,16 +124,16 @@ class GenericStationRenderer extends StationRenderer {
   GenericStationRenderer(Station station, MoonGame gameRef): super(station, gameRef);
 
   @override
-  void _processBackgroundRendering(Canvas canvas) {
+  void processBackgroundRendering(Canvas canvas) {
     canvas.drawRect(
-        _rect,
+        rect,
         stationPaint,
     );
     canvas.drawRect(
-        _rect,
+        rect,
         stationStrokePaint,
     );
-    roomNameConfig.render(canvas, station.toString(), _position);
+    roomNameConfig.render(canvas, station.toString(), position);
   }
 }
 
@@ -156,8 +161,8 @@ class BasicAnimationRenderer extends StationRenderer {
   void update(double dt) => _animation.update(dt * gameRef.state.speed);
 
   @override
-  void _processBackgroundRendering(Canvas canvas) {
-    _animation.getSprite().render(canvas, position: _position, size: _size);
+  void processBackgroundRendering(Canvas canvas) {
+    _animation.getSprite().render(canvas, position: position, size: size);
   }
 }
 
@@ -195,16 +200,3 @@ class WorkShiftOnlyAnimationRenderer extends BasicAnimationRenderer {
   }
 }
 
-class BarracksRenderer extends StationRenderer {
-
-  Sprite _sprite;
-
-  BarracksRenderer(Station station, MoonGame game): super(station, game) {
-    _sprite = Sprite(gameRef.images.fromCache('stations/barracks.png'));
-  }
-
-  @override
-  void _processBackgroundRendering(Canvas canvas) {
-    _sprite.render(canvas, position: _position, size: _size);
-  }
-}
