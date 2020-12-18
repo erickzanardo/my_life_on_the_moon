@@ -76,6 +76,7 @@ class MoonGame extends BaseGame with MultiTouchDragDetector, ScrollDetector, Mul
       images.load('stations/battery_room.png'),
       images.load('stations/farm.png'),
       images.load('stations/solar_panel.png'),
+      images.load('stations/barracks.png'),
     ]);
 
     // this can be loaded from a saved game eventually

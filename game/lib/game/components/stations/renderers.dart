@@ -1,4 +1,5 @@
 import 'package:flame/extensions/vector2.dart';
+import 'package:flame/sprite.dart';
 import 'package:flame/sprite_animation.dart';
 import 'package:flame/text_config.dart';
 
@@ -40,6 +41,11 @@ StationRenderer stationRenderFactory(Station station, MoonGame game) {
           game.images.fromCache('stations/solar_panel.png'),
           amount: 4,
           stepTime: 0.25,
+      );
+    case StationType.BARRACKS:
+      return BarracksRenderer(
+          station,
+          game,
       );
     default:
       return GenericStationRenderer(station, game);
@@ -186,5 +192,19 @@ class WorkShiftOnlyAnimationRenderer extends BasicAnimationRenderer {
     if (gameRef.state.isWorkDay) {
       super.update(dt);
     }
+  }
+}
+
+class BarracksRenderer extends StationRenderer {
+
+  Sprite _sprite;
+
+  BarracksRenderer(Station station, MoonGame game): super(station, game) {
+    _sprite = Sprite(gameRef.images.fromCache('stations/barracks.png'));
+  }
+
+  @override
+  void _processBackgroundRendering(Canvas canvas) {
+    _sprite.render(canvas, position: _position, size: _size);
   }
 }
