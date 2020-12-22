@@ -94,8 +94,18 @@ class MoonGame extends BaseGame with MultiTouchDragDetector, ScrollDetector, Mul
       ..onUpdate = onPanUpdate;
   }
 
+  void _updatePan(Vector2 offset) {
+    final newOffset = panOffest + offset;
+
+    if (newOffset.y < -50) {
+      newOffset.y = -50;
+    }
+
+    panOffest = newOffset;
+  }
+
   void onPanUpdate(DragUpdateDetails details) {
-    panOffest += details.delta.toVector2();
+    _updatePan(details.delta.toVector2());
   }
 
   @override
@@ -105,7 +115,7 @@ class MoonGame extends BaseGame with MultiTouchDragDetector, ScrollDetector, Mul
       zoomFactor -= delta;
       zoomFactor = min(zoomFactor, 4);
       zoomFactor = max(zoomFactor, 0.2);
-      panOffest -= details.scrollDelta.toVector2();
+      _updatePan(details.scrollDelta.toVector2() * -1);
     }
   }
 
