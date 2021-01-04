@@ -11,15 +11,14 @@ import '../game/widgets/side_menu_overlay.dart';
 class MoonGameScreen extends StatelessWidget {
   @override
   Widget build(_) {
-    final game = MoonGame();
     return Scaffold(
-        body: GameWidget(
-            game: game,
+        body: GameWidget<MoonGame>(
+            game: MoonGame(),
             overlayBuilderMap: {
-              SpeedControlOverlay.OVERLAY_ID: (_) => SpeedControlOverlay(game),
-              SideMenuOverlay.OVERLAY_ID: (_) => SideMenuOverlay(game),
-              StationDetailsPanelOverlay.OVERLAY_ID: (_) => StationDetailsPanelOverlay(game),
-              StationListPanel.OVERLAY_ID: (_) => StationListPanel(game),
+              SpeedControlOverlay.OVERLAY_ID: (_, game) => SpeedControlOverlay(game),
+              SideMenuOverlay.OVERLAY_ID: (_, game) => SideMenuOverlay(game),
+              StationDetailsPanelOverlay.OVERLAY_ID: (_, game) => StationDetailsPanelOverlay(game),
+              StationListPanel.OVERLAY_ID: (_, game) => StationListPanel(game),
             },
         ),
     );
